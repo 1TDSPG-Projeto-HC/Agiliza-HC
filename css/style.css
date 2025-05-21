@@ -1,0 +1,279 @@
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Corpo e fonte */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff; /* azul clarinho */
+            color: #003366; /* azul escuro */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #004080; /* azul escuro */
+            color: white;
+            padding: 1rem 2rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        /* Navegação */
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #3399ff;
+            outline: none;
+        }
+
+        /* Container do Login */
+        .login-container {
+            margin-left: auto;
+        }
+
+        .login-button {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .login-button:hover,
+        .login-button:focus {
+            background-color: white;
+            color: #004080;
+            outline: none;
+        }
+
+        /* Área principal */
+        main {
+            flex: 1;
+            max-width: 1000px;
+            width: 90%;
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgb(0 0 0 / 0.1);
+        }
+
+        /* Títulos das seções */
+        main h2 {
+            border-bottom: 2px solid #004080;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Formulários */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="time"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.6rem;
+            font-size: 1rem;
+            border: 1px solid #004080;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #3399ff;
+            outline: none;
+        }
+
+        /* Botões */
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover,
+        button:focus {
+            background-color: #3399ff;
+            outline: none;
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* Links */
+        a {
+            color: #004080;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #3399ff;
+            outline: none;
+        }
+
+        /* FAQ detalhes */
+        details summary {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #004080;
+        }
+
+        details p {
+            padding: 0.5rem 1rem;
+            color: #003366;
+        }
+
+        /* Estilo para lista de serviços */
+        .services-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .services-list li {
+            background-color: #f0f8ff; /* azul bem clarinho */
+            border-left: 5px solid #004080;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* Responsividade */
+
+        /* Celulares pequenos */
+        @media (max-width: 599px) {
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            main {
+                width: 95%;
+                padding: 1rem;
+            }
+            
+            button {
+                width: 100%;
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.4rem;
+                text-align: center;
+                width: 100%;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            .login-container {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .login-button {
+                display: block;
+                width: fit-content;
+                margin: 0 auto;
+            }
+        }
+
+        /* Tablets */
+        @media (min-width: 600px) and (max-width: 899px) {
+            main {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Desktops */
+        @media (min-width: 900px) {
+            main {
+                width: 75%;
+                padding: 2rem;
+            }
+        }
