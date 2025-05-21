@@ -1,0 +1,58 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Clínica Saúde & Bem-Estar - Cadastro</title>
+ <header>
+        <h1>Clínica Saúde & Bem-Estar</h1>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="servicos.html">Serviços</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="login.html" id="login-button" class="login-button">Login</a>
+            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="register-section">
+            <h2>Cadastro de Novo Usuário</h2>
+            <p>Crie sua conta para ter acesso completo aos recursos do portal.</p>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Nome de Usuário:</label>
+                    <input type="text" id="register-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email:</label>
+                    <input type="email" id="register-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-cpf">CPF:</label>
+                    <input type="text" id="register-cpf" name="cpf" placeholder="Ex: 123.456.789-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" maxlength="14" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Senha:</label>
+                    <input type="password" id="register-password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirmar Senha:</label>
+                    <input type="password" id="register-confirm-password" name="confirm-password" required>
+                </div>
+                <button type="submit">Cadastrar</button>
+                <p id="register-message" class="message-box" style="display: none;"></p>
+            </form>
+            <a href="login.html" id="show-login" class="toggle-link">Já tem uma conta? Faça login.</a>
+        </section>
+    </main>

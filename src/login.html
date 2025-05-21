@@ -1,0 +1,55 @@
+ <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Contato - Clínica Vida+</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Clínica Saúde & Bem-Estar</h1>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="integrantes.html">integrantes</a></li>
+                <li><a href="servicos.html">Serviços</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="login.html" id="login-button" class="login-button">Login</a>
+            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+        </div>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="cadastro.html" id="cadastro-button" class="cadastro-button">Cadastro</a>
+            <a href="#" id="logout-button" class="cadastro-button" style="display: none;">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2>Acesso ao Portal do Paciente</h2>
+            <p>Faça login para acessar suas informações, histórico de consultas e agendamentos.</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Entrar</button>
+                <p id="login-error-message" style="display: none;">Usuário ou senha inválidos.</p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Clínica Saúde & Bem-Estar. Todos os direitos reservados.</p>
+    </footer>
