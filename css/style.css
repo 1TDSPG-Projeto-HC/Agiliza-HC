@@ -1,4 +1,5 @@
-  * {
+        /* Reset básico */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -59,12 +60,21 @@
             outline: none;
         }
 
-        /* Container do Login */
-        .login-container {
+        /* Container do Login/Usuário */
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             margin-left: auto;
         }
 
-        .login-button {
+        .welcome-message {
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .login-button, .logout-button {
             color: white;
             text-decoration: none;
             font-weight: 600;
@@ -73,10 +83,13 @@
             border-radius: 4px;
             transition: background-color 0.3s ease, color 0.3s ease;
             white-space: nowrap;
+            cursor: pointer;
         }
 
         .login-button:hover,
-        .login-button:focus {
+        .login-button:focus,
+        .logout-button:hover,
+        .logout-button:focus {
             background-color: white;
             color: #004080;
             outline: none;
@@ -92,6 +105,7 @@
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 0 15px rgb(0 0 0 / 0.1);
+            text-align: center; /* Centraliza o conteúdo principal */
         }
 
         /* Títulos das seções */
@@ -101,7 +115,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Formulários */
+        /* Formulários (mantido para consistência, mas não usado diretamente aqui) */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -140,7 +154,7 @@
             outline: none;
         }
 
-        /* Botões */
+        /* Botões (mantido para consistência) */
         button {
             background-color: #004080;
             color: white;
@@ -167,6 +181,23 @@
             padding: 1rem 2rem;
             font-size: 0.9rem;
             margin-top: auto;
+            display: flex; /* Para centralizar o ícone da casa */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Ícone da casa no rodapé */
+        .home-icon {
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%; /* Para um visual arredondado */
+            transition: background-color 0.3s ease;
+        }
+
+        .home-icon:hover {
+            background-color: #3399ff;
         }
 
         /* Links */
@@ -181,63 +212,55 @@
             outline: none;
         }
 
-        /* FAQ detalhes */
-        details summary {
-            cursor: pointer;
-            font-weight: 600;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #004080;
-        }
-
-        details p {
-            padding: 0.5rem 1rem;
-            color: #003366;
-        }
-
-        /* Estilo para lista de serviços */
-        .services-list {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 1.5rem;
-        }
-
-        .services-list li {
-            background-color: #f0f8ff;
-            border-left: 5px solid #004080;
-            padding: 0.8rem 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 4px;
-        }
-
-        /* Estilo para membros da equipe */
-        .team-member {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background-color: #f8f8f8;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .team-member img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin-right: 1.5rem;
-            object-fit: cover;
-            border: 2px solid #004080;
-        }
-
-        .team-member-info h3 {
-            margin-top: 0;
+        /* Dashboard specific styles */
+        .dashboard-welcome {
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
             color: #004080;
+            text-align: left; /* Alinha o "Olá, Silvio" à esquerda */
         }
 
-        .team-member-info p {
-            margin-bottom: 0.25rem;
+        .dashboard-question {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
             color: #003366;
+            text-align: center;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            background-color: #f0f8ff; /* azul bem clarinho */
+            border: 1px solid #004080;
+            border-radius: 8px;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            color: #003366;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card:hover {
+            background-color: #dbe9ff; /* um pouco mais escuro no hover */
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            color: #004080;
         }
 
         /* Responsividade */
@@ -279,27 +302,27 @@
                 justify-content: center;
             }
 
-            .login-container {
+            .user-controls {
                 margin-top: 1rem;
                 margin-left: 0;
                 width: 100%;
-                text-align: center;
+                justify-content: center;
             }
 
-            .login-button {
+            .login-button, .logout-button {
                 display: block;
                 width: fit-content;
                 margin: 0 auto;
             }
 
-            .team-member {
-                flex-direction: column;
+            .welcome-message {
                 text-align: center;
+                width: 100%;
+                margin-bottom: 0.5rem;
             }
 
-            .team-member img {
-                margin-right: 0;
-                margin-bottom: 1rem;
+            .dashboard-grid {
+                grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
             }
         }
 
@@ -308,6 +331,9 @@
             main {
                 width: 90%;
                 padding: 1.5rem;
+            }
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets */
             }
         }
 

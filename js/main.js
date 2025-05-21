@@ -184,3 +184,40 @@
             // Initial update when the page loads
             updateHeaderLoginState();
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginButton = document.getElementById('login-button');
+            const logoutButton = document.getElementById('logout-button');
+            const welcomeMessage = document.getElementById('welcome-message');
+            const userWelcomeMessage = document.getElementById('user-welcome-message'); // Specific for dashboard
+
+            function updateHeaderLoginState() {
+                const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+                const username = sessionStorage.getItem('username') || 'Usuário';
+
+                if (isLoggedIn === 'true') {
+                    loginButton.style.display = 'none';
+                    logoutButton.style.display = 'inline-block';
+                    welcomeMessage.style.display = 'inline-block';
+                    welcomeMessage.textContent = `Olá, ${username}!`;
+                    if (userWelcomeMessage) {
+                        userWelcomeMessage.textContent = `Olá, ${username}!`;
+                    }
+                } else {
+                    loginButton.style.display = 'inline-block';
+                    logoutButton.style.display = 'none';
+                    welcomeMessage.style.display = 'none';
+                    // If not logged in, redirect to login page
+                    window.location.href = window.location.origin + '/login.html'; 
+                }
+            }
+
+            logoutButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                sessionStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('username');
+                window.location.href = window.location.origin + '/index.html';
+            });
+
+            updateHeaderLoginState();
+        });
