@@ -262,6 +262,12 @@
             margin-bottom: 0.8rem;
             color: #004080;
         }
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
 
         /* Responsividade */
 

@@ -1,13 +1,13 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Contato - Clínica Vida+</title>
+  <title>Contato - Agiliza HC</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Clínica Saúde & Bem-Estar</h1>
+    <header> 
+        <h1>Agiliza HC</h1>
         <nav>
             <ul id="main-nav">
                 <li><a href="/index.html">Início</a></li>
@@ -41,7 +41,28 @@
             </form>
         </section>
     </main>
-
     <footer>
         <p>&copy; 2023 Clínica Saúde & Bem-Estar. Todos os direitos reservados.</p>
     </footer>
+
+    <!-- SCRIPT DE LOGIN -->
+    <script>
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                if (username && password) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('username', username);
+                    window.location.href = 'pagina inicial.html';
+                } else {
+                    document.getElementById('login-error-message').style.display = 'block';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

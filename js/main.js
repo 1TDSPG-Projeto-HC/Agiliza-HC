@@ -221,3 +221,20 @@
 
             updateHeaderLoginState();
         });
+        const loginForm = document.getElementById('login-form');
+if (loginForm) {
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        // Simulação de autenticação simples
+        if (username && password) {
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('username', username);
+            window.location.href = "/src/pagina incial.html"; 
+        } else {
+            alert('Por favor, preencha todos os campos.');
+        }
+    });
+}
