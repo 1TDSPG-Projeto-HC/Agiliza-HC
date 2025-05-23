@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pronto Atendimento - Agiliza HC</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff;
+            color: #003366;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 1rem 2rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #3399ff;
+            outline: none;
+        }
+
+        nav ul li.current-page a {
+            background-color: #3399ff;
+            pointer-events: none;
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .welcome-message {
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            display: none !important;
+        }
+
+        .login-button,
+        .logout-button {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .login-button {
+            display: none !important;
+        }
+
+        .login-button:hover,
+        .login-button:focus,
+        .logout-button:hover,
+        .logout-button:focus {
+            background-color: white;
+            color: #004080;
+            outline: none;
+        }
+
+        main {
+            flex: 1;
+            max-width: 900px;
+            width: 90%;
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        main h2 {
+            color: #004080;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 0.8rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .form-section {
+            background-color: #f0f8ff;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #d0e0f0;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .form-section h3 {
+            color: #004080;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: #003366;
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #004080;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #3399ff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group label {
+            display: inline-block;
+            margin-right: 1.5rem;
+            font-weight: normal;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        button,
+        .button-link {
+            background-color: #004080;
+            color: white;
+            padding: 0.9rem 1.8rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        button:hover,
+        button:focus,
+        .button-link:hover,
+        .button-link:focus {
+            background-color: #3399ff;
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .secondary-button {
+            background-color: #6c757d;
+        }
+
+        .secondary-button:hover,
+        .secondary-button:focus {
+            background-color: #5a6268;
+        }
+
+        .message-box {
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-top: 2rem;
+            font-weight: 500;
+            font-size: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .message-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message-box.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .home-icon {
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .home-icon:hover {
+            background-color: #3399ff;
+        }
+
+        a {
+            color: #004080;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #3399ff;
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .form-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 599px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            nav ul li a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user-controls {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .welcome-message {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .login-button,
+            .logout-button {
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            main {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .intro-text {
+                font-size: 1rem;
+            }
+
+            .message-box {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href="pagina%20inicial.html">Agiliza HC</a></h1>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="pagina%20inicial.html">Início</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+                <li><a href="meus-agendamentos.html">Meus Agendamentos</a></li>
+                <li class="current-page"><a href="pronto-atendimento.html">Pronto Atendimento</a></li>
+                <li><a href="perfil.html">Meu Perfil</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message"></span>
+            <a href="#" id="logout-button" class="logout-button">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2>Pronto Atendimento Online</h2>
+            <p class="intro-text">
+                Em casos de emergência ou urgência, preencha o formulário abaixo para que possamos direcionar seu atendimento de forma rápida e eficiente. Por favor, forneça informações precisas para uma avaliação adequada.
+            </p>
+
+            <form id="pronto-atendimento-form">
+                <div class="form-section">
+                    <h3>Dados do Paciente</h3>
+                    <div class="form-group">
+                        <label for="pa_nome">Nome completo:</label>
+                        <input type="text" id="pa_nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_cpf">CPF:</label>
+                        <input type="text" id="pa_cpf" placeholder="123.456.789-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                            maxlength="14" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_nascimento">Data de nascimento:</label>
+                        <input type="date" id="pa_nascimento" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_telefone">Telefone (com DDD):</label>
+                        <input type="tel" id="pa_telefone" placeholder="(XX) 9XXXX-XXXX" pattern="\(\d{2}\) \d{5}-\d{4}"
+                            maxlength="15" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_convenio">Convênio:</label>
+                        <select id="pa_convenio" required>
+                            <option value="">Selecione...</option>
+                            <option>Unimed</option>
+                            <option>Bradesco Saúde</option>
+                            <option>Amil</option>
+                            <option>SulAmérica</option>
+                            <option>Notredame Intermédica</option>
+                            <option>Particular</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Informações da Urgência/Emergência</h3>
+                    <div class="form-group">
+                        <label for="pa_sintomas">Descreva seus sintomas detalhadamente:</label>
+                        <textarea id="pa_sintomas" rows="6"
+                            placeholder="Ex: Dor forte no peito há 2 horas, falta de ar, suor frio." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_duracao">Há quanto tempo você sente esses sintomas?</label>
+                        <input type="text" id="pa_duracao"
+                            placeholder="Ex: 30 minutos, 2 dias, desde ontem à noite." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_gravidade">Qual o nível de gravidade dos sintomas?</label>
+                        <select id="pa_gravidade" required>
+                            <option value="">Selecione...</option>
+                            <option value="leve">Leve (Desconforto, não interfere nas atividades)</option>
+                            <option value="moderado">Moderado (Dor/desconforto significativo, interfere um pouco)</option>
+                            <option value="grave">Grave (Dor/desconforto intenso, impede atividades, preocupante)</option>
+                            <option value="emergencia">Emergência (Risco de vida, procure ajuda imediatamente)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Você apresenta algum dos seguintes sintomas graves?</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="dor_peito"> <label for="dor_peito">Dor no peito intensa</label><br>
+                            <input type="checkbox" id="falta_ar"> <label for="falta_ar">Falta de ar súbita</label><br>
+                            <input type="checkbox" id="perda_consciencia"> <label for="perda_consciencia">Perda de consciência</label><br>
+                            <input type="checkbox" id="hemorragia"> <label for="hemorragia">Hemorragia grave</label><br>
+                            <input type="checkbox" id="convulsao"> <label for="convulsao">Convulsão</label><br>
+                            <input type="checkbox" id="nenhum_grave"> <label for="nenhum_grave">Nenhum dos anteriores</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pa_historico">Histórico médico relevante (doenças crônicas, alergias, medicações em uso):</label>
+                        <textarea id="pa_historico" rows="3" placeholder="Ex: Hipertensão, alergia a penicilina, uso de Losartana."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <a href="pagina%20inicial.html" class="button-link secondary-button">Voltar para Início</a>
+                    <button type="submit">Enviar Pedido de Atendimento</button>
+                </div>
+
+                <p id="pa_mensagem-sucesso" class="message-box success" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Sua solicitação de pronto atendimento foi enviada! Entraremos em contato em breve.
+                </p>
+                <p id="pa_mensagem-erro" class="message-box error" style="display: none;">
+                    <i class="fas fa-times-circle"></i> Houve um erro ao enviar sua solicitação. Por favor, revise os dados e tente novamente.
+                </p>
+                <p id="pa_mensagem-emergencia" class="message-box info" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i> **ATENÇÃO!** Se sua condição é uma emergência (risco de vida), ligue imediatamente para o SAMU (192) ou procure o pronto-socorro mais próximo.
+                </p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <a href="pagina%20inicial.html" class="home-icon" title="Voltar ao Início"><i class="fas fa-home"></i></a>
+        <p>&copy; <span id="current-year"></span> Agiliza HC. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const welcomeMessage = document.getElementById('welcome-message');
+            const logoutButton = document.getElementById('logout-button');
+            const prontoAtendimentoForm = document.getElementById('pronto-atendimento-form');
+            const paMensagemSucesso = document.getElementById('pa_mensagem-sucesso');
+            const paMensagemErro = document.getElementById('pa_mensagem-erro');
+            const paMensagemEmergencia = document.getElementById('pa_mensagem-emergencia');
+            const paCpfInput = document.getElementById('pa_cpf');
+            const paTelefoneInput = document.getElementById('pa_telefone');
+            const paGravidadeSelect = document.getElementById('pa_gravidade');
+            const paNenhumGraveCheckbox = document.getElementById('nenhum_grave');
+            const paSintomasGravesCheckboxes = document.querySelectorAll('#dor_peito, #falta_ar, #perda_consciencia, #hemorragia, #convulsao');
+
+            function checkLoginStatus() {
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    welcomeMessage.textContent = `Olá, ${userName}!`;
+                    welcomeMessage.style.display = 'inline';
+                    logoutButton.style.display = 'inline-block';
+                } else {
+                    welcomeMessage.textContent = '';
+                    welcomeMessage.style.display = 'none';
+                    logoutButton.style.display = 'none';
+                }
+            }
+
+            logoutButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('userName');
+                checkLoginStatus();
+                alert('Você foi desconectado.');
+            });
+
+            const navItems = document.querySelectorAll('#main-nav li a');
+            navItems.forEach(item => {
+                const currentPage = window.location.pathname.split('/').pop();
+                const itemHref = item.getAttribute('href').split('/').pop();
+
+                if (itemHref === currentPage || (currentPage === '' && itemHref === 'pagina%20inicial.html')) {
+                    item.parentElement.classList.add('current-page');
+                }
+            });
+
+            function formatCPF(value) {
+                value = value.replace(/\D/g, '');
+                if (value.length > 9) {
+                    value = value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
+                } else if (value.length > 6) {
+                    value = value.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1.$2.$3');
+                } else if (value.length > 3) {
+                    value = value.replace(/^(\d{3})(\d{3})$/, '$1.$2');
+                } else if (value.length > 0) {
+                    value = value.replace(/^(\d{3})$/, '$1');
+                }
+                return value;
+            }
+
+            function formatTelefone(value) {
+                value = value.replace(/\D/g, '');
+                if (value.length > 10) {
+                    value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+                } else if (value.length > 6) {
+                    value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+                } else if (value.length > 2) {
+                    value = value.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
+                } else if (value.length > 0) {
+                    value = value.replace(/^(\d*)/, '($1');
+                }
+                return value;
+            }
+
+            paCpfInput.addEventListener('input', function () {
+                this.value = formatCPF(this.value);
+            });
+
+            paTelefoneInput.addEventListener('input', function () {
+                this.value = formatTelefone(this.value);
+            });
+
+            paSintomasGravesCheckboxes.forEach(checkbox => {
+                if (checkbox.id !== 'nenhum_grave') {
+                    checkbox.addEventListener('change', function () {
+                        if (this.checked) {
+                            paNenhumGraveCheckbox.checked = false;
+                        }
+                    });
+                }
+            });
+
+            paNenhumGraveCheckbox.addEventListener('change', function () {
+                if (this.checked) {
+                    paSintomasGravesCheckboxes.forEach(checkbox => {
+                        if (checkbox.id !== 'nenhum_grave') {
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+            });
+
+            paGravidadeSelect.addEventListener('change', function () {
+                if (this.value === 'emergencia') {
+                    paMensagemEmergencia.style.display = 'block';
+                } else {
+                    paMensagemEmergencia.style.display = 'none';
+                }
+            });
+
+            prontoAtendimentoForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                paMensagemSucesso.style.display = 'none';
+                paMensagemErro.style.display = 'none';
+                paMensagemEmergencia.style.display = 'none';
+
+                const requiredFields = prontoAtendimentoForm.querySelectorAll('[required]');
+                let allFieldsFilled = true;
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        allFieldsFilled = false;
+                        field.style.borderColor = 'red';
+                    } else {
+                        field.style.borderColor = '';
+                    }
+                });
+
+                if (!allFieldsFilled) {
+                    paMensagemErro.textContent = 'Por favor, preencha todos os campos obrigatórios.';
+                    paMensagemErro.style.display = 'block';
+                    return;
+                }
+
+                const submissionSuccessful = true;
+
+                if (submissionSuccessful) {
+                    paMensagemSucesso.style.display = 'block';
+                    prontoAtendimentoForm.reset();
+                    paSintomasGravesCheckboxes.forEach(checkbox => checkbox.checked = false);
+                    paNenhumGraveCheckbox.checked = false;
+                } else {
+                    paMensagemErro.textContent = 'Ocorreu um erro ao processar sua solicitação. Tente novamente.';
+                    paMensagemErro.style.display = 'block';
+                }
+
+                if (paGravidadeSelect.value === 'emergencia') {
+                    paMensagemEmergencia.style.display = 'block';
+                }
+            });
+
+            checkLoginStatus();
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+
+</html>
