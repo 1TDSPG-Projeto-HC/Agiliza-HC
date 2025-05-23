@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Agendamentos - Agiliza HC</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* Estilos globais e de layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff; /* Azul claro de fundo */
+            color: #003366; /* Azul escuro para textos principais */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilos do cabeçalho */
+        header {
+            background-color: #004080; /* Azul marinho */
+            color: white;
+            padding: 1rem 2rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1; /* Permite que o título ocupe o espaço disponível */
+        }
+
+        header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Estilos da navegação */
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #3399ff; /* Azul mais claro ao passar o mouse */
+            outline: none;
+        }
+
+        nav ul li.current-page a {
+            background-color: #3399ff; /* Cor para a página atual */
+            pointer-events: none; /* Desabilita clique na página atual */
+        }
+
+        /* Controles do usuário (login/logout) */
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto; /* Empurra para a direita */
+        }
+
+        .welcome-message {
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            /* Garante que a mensagem não quebre linha */
+            display: none !important;
+            /* Escondido por padrão, mostrado via JS */
+        }
+
+        .login-button,
+        .logout-button {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .login-button {
+            display: none !important;
+            /* Escondido por padrão, mostrado via JS se não logado */
+        }
+
+        .login-button:hover,
+        .login-button:focus,
+        .logout-button:hover,
+        .logout-button:focus {
+            background-color: white;
+            color: #004080;
+            outline: none;
+        }
+
+        /* Estilos do conteúdo principal */
+        main {
+            flex: 1; /* Permite que o main ocupe o espaço restante */
+            max-width: 1200px;
+            width: 90%;
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        main h2 {
+            border-bottom: 2px solid #004080;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #004080;
+            text-align: left;
+        }
+
+        /* Estilos dos filtros */
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            border: 1px solid #d0e0f0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1; /* Garante que os grupos de filtro ocupem espaço igual */
+            min-width: 180px; /* Largura mínima para evitar quebras estranhas */
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #003366;
+            font-size: 0.95rem;
+        }
+
+        .filter-container select,
+        .filter-container input[type="date"] {
+            width: 100%;
+            padding: 0.7rem;
+            font-size: 1rem;
+            border: 1px solid #004080;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+        }
+
+        .filter-container select:focus,
+        .filter-container input[type="date"]:focus {
+            border-color: #3399ff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        .button-filter {
+            background-color: #004080;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            align-self: flex-end;
+            /* Alinha o botão com a base dos inputs */
+            margin-top: auto;
+            /* Garante que o botão se alinhe corretamente quando o flex-direction for column */
+            min-width: 150px;
+        }
+
+        .button-filter:hover,
+        .button-filter:focus {
+            background-color: #3399ff;
+            transform: translateY(-2px); /* Pequeno efeito de elevação */
+            outline: none;
+        }
+
+
+        /* Estilos da tabela de agendamentos */
+        .appointments-table-container {
+            overflow-x: auto;
+            /* Adiciona scroll horizontal em telas pequenas */
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            min-width: 700px; /* Largura mínima para a tabela não quebrar muito */
+        }
+
+        .appointments-table th,
+        .appointments-table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .appointments-table th {
+            background-color: #004080;
+            color: white;
+            font-weight: 700;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+
+        .appointments-table td {
+            background-color: #fefefe;
+            color: #333;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        .appointments-table tr:nth-child(even) td {
+            background-color: #e6f0ff; /* Azul claro alternado */
+        }
+
+        .appointments-table tr:hover td {
+            background-color: #dbeaff; /* Azul ainda mais claro ao passar o mouse */
+        }
+
+        /* Mensagem de nenhum agendamento */
+        .no-appointments-message {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #fff3cd; /* Amarelo claro */
+            color: #856404; /* Marrom escuro */
+            border: 1px solid #ffeeba;
+            border-radius: 5px;
+            font-weight: 500;
+            text-align: center;
+            display: none; /* Escondido por padrão, mostrado via JS */
+        }
+
+        /* Botões de ação dentro da tabela */
+        .action-buttons button {
+            background-color: #007bff; /* Azul primário */
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0 0.3rem;
+            white-space: nowrap;
+        }
+
+        .action-buttons button.cancel {
+            background-color: #dc3545; /* Vermelho para cancelar */
+        }
+
+        .action-buttons button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Estilos do rodapé */
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .home-icon {
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .home-icon:hover {
+            background-color: #3399ff;
+        }
+
+        /* Estilos de links gerais */
+        a {
+            color: #004080;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #3399ff;
+            outline: none;
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .button-filter {
+                width: 100%;
+                margin-top: 1.5rem;
+            }
+
+            /* Estilos de tabela para telas menores (empilha células) */
+            .appointments-table thead {
+                display: none;
+            }
+
+            .appointments-table,
+            .appointments-table tbody,
+            .appointments-table tr,
+            .appointments-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .appointments-table tr {
+                margin-bottom: 1.5rem;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            }
+
+            .appointments-table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+                border: none;
+                border-bottom: 1px solid #eee;
+                font-size: 0.9rem;
+            }
+
+            .appointments-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 45%;
+                padding-left: 1rem;
+                font-weight: 700;
+                text-align: left;
+                color: #004080;
+                font-size: 0.9rem;
+            }
+
+            .appointments-table td:last-child {
+                border-bottom: none;
+                padding-bottom: 1rem; /* Espaçamento extra para os botões */
+            }
+
+            .action-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 0.5rem;
+                padding-right: 0.5rem; /* Ajuste para não colar na borda */
+            }
+
+            .action-buttons button {
+                flex-grow: 1; /* Permite que os botões se expandam */
+                max-width: 120px; /* Limita a largura dos botões */
+                margin: 0; /* Remove margem extra entre eles */
+            }
+        }
+
+        @media (max-width: 599px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            nav ul li a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user-controls {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .welcome-message {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .login-button,
+            .logout-button {
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            main {
+                width: 95%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href="pagina%20inicial.html" style="color: white; text-decoration: none;">Agiliza HC</a></h1>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="pagina%20inicial.html">Início</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+                <li class="current-page"><a href="meus-agendamentos.html">Meus Agendamentos</a></li>
+                <li><a href="perfil.html">Meu Perfil</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2>Meus Agendamentos</h2>
+
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="filter-status">Status:</label>
+                    <select id="filter-status">
+                        <option value="">Todos</option>
+                        <option value="Confirmado">Confirmado</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Cancelado">Cancelado</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-especialidade">Especialidade:</label>
+                    <select id="filter-especialidade">
+                        <option value="">Todas</option>
+                        <option>Cardiologia</option>
+                        <option>Pediatria</option>
+                        <option>Dermatologia</option>
+                        <option>Ortopedia</option>
+                        <option>Clínica Geral</option>
+                        <option>Oftalmologia</option>
+                        <option>Ginecologia</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-data-inicio">Data Início:</label>
+                    <input type="date" id="filter-data-inicio">
+                </div>
+
+                <div class="filter-group">
+                    <label for="filter-data-fim">Data Fim:</label>
+                    <input type="date" id="filter-data-fim">
+                </div>
+
+                <button class="button-filter" id="apply-filters">Aplicar Filtros</button>
+            </div>
+
+            <div class="appointments-table-container">
+                <table class="appointments-table" id="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Especialidade</th>
+                            <th>Médico</th>
+                            <th>Unidade</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+                <p id="no-appointments" class="no-appointments-message" style="display: none;">
+                    Nenhum agendamento encontrado para os filtros selecionados.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a href="pagina%20inicial.html" class="home-icon" title="Voltar ao Início"><i class="fas fa-home"></i></a>
+        <p>&copy; <span id="current-year"></span> Agiliza HC. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Elementos do DOM
+            const welcomeMessage = document.getElementById('welcome-message');
+            const loginButton = document.getElementById('login-button'); // Mantido para compatibilidade, mas invisível
+            const logoutButton = document.getElementById('logout-button');
+            const appointmentsTableBody = document.querySelector('#appointments-table tbody');
+            const noAppointmentsMessage = document.getElementById('no-appointments');
+            const applyFiltersButton = document.getElementById('apply-filters');
+
+            // Filtros
+            const filterStatus = document.getElementById('filter-status');
+            const filterEspecialidade = document.getElementById('filter-especialidade');
+            const filterDataInicio = document.getElementById('filter-data-inicio');
+            const filterDataFim = document.getElementById('filter-data-fim');
+
+            // --- Gerenciamento de Login (simulado) ---
+            function checkLoginStatus() {
+                // Em um cenário real, isso viria de um token ou sessão segura
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    welcomeMessage.textContent = `Olá, ${userName}!`;
+                    welcomeMessage.style.display = 'inline';
+                    // loginButton.style.display = 'none'; // Já está none no CSS
+                    logoutButton.style.display = 'inline-block';
+                } else {
+                    welcomeMessage.textContent = '';
+                    welcomeMessage.style.display = 'none';
+                    // loginButton.style.display = 'inline-block'; // Se houvesse botão de login na header
+                    logoutButton.style.display = 'none';
+                }
+            }
+
+            logoutButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('userName'); // Remove o usuário do localStorage
+                checkLoginStatus(); // Atualiza a UI
+                alert('Você foi desconectado.');
+                // Opcional: redirecionar para a página de login ou inicial
+                // window.location.href = 'pagina%20inicial.html';
+            });
+
+            // --- Marcação da página atual na navegação ---
+            const navItems = document.querySelectorAll('#main-nav li a');
+            navItems.forEach(item => {
+                // Obtém apenas o nome do arquivo da URL para comparação
+                const currentPage = window.location.pathname.split('/').pop();
+                const itemHref = item.getAttribute('href').split('/').pop();
+
+                if (itemHref === currentPage) {
+                    item.parentElement.classList.add('current-page');
+                }
+            });
+
+            // --- Dados de Agendamento (Simulados - em um app real, viriam de uma API) ---
+            // Usamos localStorage para simular persistência
+            let appointments = JSON.parse(localStorage.getItem('userAppointments')) || [
+                {
+                    id: 'app001',
+                    data: '2025-05-25',
+                    hora: '10:00',
+                    especialidade: 'Cardiologia',
+                    medico: 'Dr. João Silva',
+                    unidade: 'Unidade Central',
+                    status: 'Confirmado'
+                },
+                {
+                    id: 'app002',
+                    data: '2025-06-01',
+                    hora: '14:30',
+                    especialidade: 'Pediatria',
+                    medico: 'Dra. Maria Souza',
+                    unidade: 'Unidade Zona Leste',
+                    status: 'Pendente'
+                },
+                {
+                    id: 'app003',
+                    data: '2025-05-10',
+                    hora: '09:00',
+                    especialidade: 'Dermatologia',
+                    medico: 'Dr. Carlos Lima',
+                    unidade: 'Unidade Sul',
+                    status: 'Concluído'
+                },
+                {
+                    id: 'app004',
+                    data: '2025-06-15',
+                    hora: '11:00',
+                    especialidade: 'Oftalmologia',
+                    medico: 'Dra. Laura Campos',
+                    unidade: 'Unidade Oeste',
+                    status: 'Confirmado'
+                },
+                {
+                    id: 'app005',
+                    data: '2025-05-20',
+                    hora: '16:00',
+                    especialidade: 'Ortopedia',
+                    medico: 'Dra. Ana Costa',
+                    unidade: 'Unidade Central',
+                    status: 'Cancelado'
+                },
+                {
+                    id: 'app006',
+                    data: '2025-07-05',
+                    hora: '13:00',
+                    especialidade: 'Clínica Geral',
+                    medico: 'Dr. Pedro Mendes',
+                    unidade: 'Unidade Central',
+                    status: 'Pendente'
+                }
+            ];
+
+            // Salva os dados de agendamento no localStorage
+            function saveAppointments() {
+                localStorage.setItem('userAppointments', JSON.stringify(appointments));
+            }
+
+            // --- Funções de Formatação de Data ---
+            // Converte 'YYYY-MM-DD' para 'DD/MM/YYYY' para exibição
+            function formatDisplayDate(isoDate) {
+                if (!isoDate) return '';
+                const [year, month, day] = isoDate.split('-');
+                return `${day}/${month}/${year}`;
+            }
+
+            // Converte 'YYYY-MM-DD' para um objeto Date para comparação
+            function parseISODateToDateObject(isoDateString) {
+                if (!isoDateString) return null;
+                return new Date(isoDateString + 'T00:00:00'); // Garante que a hora seja 00:00:00 para comparação de datas
+            }
+
+
+            // --- Renderização da Tabela de Agendamentos ---
+            function renderAppointments(appointmentsToRender) {
+                appointmentsTableBody.innerHTML = ''; // Limpa a tabela
+
+                if (appointmentsToRender.length === 0) {
+                    noAppointmentsMessage.style.display = 'block';
+                    // Oculta a tabela se não houver agendamentos para não ocupar espaço visual
+                    document.getElementById('appointments-table').style.display = 'none';
+                } else {
+                    noAppointmentsMessage.style.display = 'none';
+                    document.getElementById('appointments-table').style.display = 'table'; // Mostra a tabela
+                    appointmentsToRender.forEach(app => {
+                        const row = appointmentsTableBody.insertRow();
+                        const displayDate = formatDisplayDate(app.data); // Formata a data para exibição
+
+                        // Determina quais botões de ação exibir com base no status
+                        let actionButtonsHtml = '';
+                        if (app.status === 'Confirmado' || app.status === 'Pendente') {
+                            actionButtonsHtml += `<button onclick="cancelarAgendamento('${app.id}')" class="cancel">Cancelar</button>`;
+                        }
+                        actionButtonsHtml += `<button onclick="detalhesAgendamento('${app.id}')">Detalhes</button>`;
+
+
+                        row.innerHTML = `
+                            <td data-label="Data">${displayDate}</td>
+                            <td data-label="Hora">${app.hora}</td>
+                            <td data-label="Especialidade">${app.especialidade}</td>
+                            <td data-label="Médico">${app.medico}</td>
+                            <td data-label="Unidade">${app.unidade}</td>
+                            <td data-label="Status">${app.status}</td>
+                            <td data-label="Ações" class="action-buttons">
+                                ${actionButtonsHtml}
+                            </td>
+                        `;
+                    });
+                }
+            }
+
+            // --- Lógica de Filtros ---
+            function applyFilters() {
+                const statusFilter = filterStatus.value;
+                const especialidadeFilter = filterEspecialidade.value;
+                const dataInicioFilter = parseISODateToDateObject(filterDataInicio.value);
+                const dataFimFilter = parseISODateToDateObject(filterDataFim.value);
+
+                const filteredAppointments = appointments.filter(app => {
+                    const appDate = parseISODateToDateObject(app.data); // Converte a data do agendamento para objeto Date
+
+                    const matchesStatus = statusFilter === '' || app.status === statusFilter;
+                    const matchesEspecialidade = especialidadeFilter === '' || app.especialidade === especialidadeFilter;
+
+                    // Compara as datas. Se o filtro não for preenchido, ele é sempre verdadeiro.
+                    const matchesDataInicio = !dataInicioFilter || (appDate && appDate >= dataInicioFilter);
+                    const matchesDataFim = !dataFimFilter || (appDate && appDate <= dataFimFilter);
+
+
+                    return matchesStatus && matchesEspecialidade && matchesDataInicio && matchesDataFim;
+                });
+
+                renderAppointments(filteredAppointments);
+            }
+
+            applyFiltersButton.addEventListener('click', applyFilters);
+
+            // --- Funções de Ação (Detalhes e Cancelar) ---
+
+            // Exibe os detalhes de um agendamento específico
+            window.detalhesAgendamento = function (id) {
+                const app = appointments.find(a => a.id === id);
+                if (app) {
+                    alert(`Detalhes do Agendamento:\n` +
+                        `ID: ${app.id}\n` +
+                        `Data: ${formatDisplayDate(app.data)}\n` +
+                        `Hora: ${app.hora}\n` +
+                        `Especialidade: ${app.especialidade}\n` +
+                        `Médico: ${app.medico}\n` +
+                        `Unidade: ${app.unidade}\n` +
+                        `Status: ${app.status}`);
+                    // Em um cenário real, você redirecionaria para uma página de detalhes
+                    // ou abriria um modal mais elaborado.
+                }
+            };
+
+            // Simula o cancelamento de um agendamento
+            window.cancelarAgendamento = function (id) {
+                if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
+                    const index = appointments.findIndex(app => app.id === id);
+                    if (index !== -1) {
+                        // Altera o status para 'Cancelado'
+                        appointments[index].status = 'Cancelado';
+                        saveAppointments(); // Salva a alteração
+                        applyFilters(); // Re-renderiza a tabela para refletir a mudança
+                        alert('Agendamento cancelado com sucesso!');
+                    }
+                }
+            };
+
+            // --- Inicialização ---
+            checkLoginStatus(); // Verifica o status de login ao carregar a página
+            renderAppointments(appointments); // Renderiza todos os agendamentos inicialmente
+            document.getElementById('current-year').textContent = new Date().getFullYear(); // Atualiza o ano no rodapé
+        });
+    </script>
+</body>
+
+</html>
