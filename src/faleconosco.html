@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fale Conosco - Agiliza HC</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff;
+            color: #003366;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 1rem 2rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #3399ff;
+            outline: none;
+        }
+
+        nav ul li.current-page a {
+            background-color: #3399ff;
+            pointer-events: none;
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .welcome-message {
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .logout-button {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .logout-button:hover,
+        .logout-button:focus {
+            background-color: white;
+            color: #004080;
+            outline: none;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1000px;
+            width: 90%;
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        main h2 {
+            border-bottom: 2px solid #004080;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #004080;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        main h2 i {
+            font-size: 2.2rem;
+            color: #004080;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .contact-section {
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            background-color: #eff6ff;
+        }
+
+        .contact-section h3 {
+            color: #004080;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #c0d9ed;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-section h3 i {
+            font-size: 1.7rem;
+            color: #0056b3;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            border: 1px solid #004080;
+            border-radius: 4px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus {
+            border-color: #3399ff;
+            box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.25);
+        }
+
+        .submit-button {
+            background-color: #004080;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 15px;
+            width: auto;
+            align-self: flex-start;
+        }
+
+        .submit-button:hover,
+        .submit-button:focus {
+            background-color: #3399ff;
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .contact-info p i {
+            color: #0056b3;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            padding-top: 2px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #004080;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding-left: 10px;
+            color: #555;
+        }
+
+        .faq-answer.show {
+            max-height: 200px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .back-to-home-button {
+            display: inline-block;
+            color: white;
+            padding: 0.8rem 1.8rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px; /* Ajustado para 4px para combinar com a navegação */
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+            cursor: pointer;
+            
+            /* Novas propriedades para deixar cinza e com borda similar ao logout */
+            background-color: #6c757d; /* Um cinza médio */
+            border: 2px solid #6c757d; /* Borda da mesma cor */
+            box-shadow: none; /* Remove a sombra anterior */
+        }
+
+        .back-to-home-button:hover {
+            background-color: #5a6268; /* Um cinza mais escuro no hover */
+            border-color: #5a6268; /* Borda mais escura no hover */
+            transform: translateY(-2px);
+            color: white; /* Mantém a cor do texto branca no hover */
+        }
+        .back-to-home-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.5); /* Foco com sombra cinza */
+        }
+
+
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .home-icon {
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .home-icon:hover {
+            background-color: #3399ff;
+        }
+
+        a {
+            color: #004080;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #3399ff;
+            outline: none;
+        }
+
+        @media (min-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .contact-section.full-width {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 599px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            nav ul li a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user-controls {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .welcome-message {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .logout-button {
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            main {
+                width: 95%;
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            main h2 {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+
+            main h2 i {
+                font-size: 1.8rem;
+            }
+
+            .contact-grid {
+                gap: 1.5rem;
+            }
+
+            .contact-section {
+                padding: 20px;
+            }
+
+            .contact-section h3 {
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            .contact-section h3 i {
+                font-size: 1.5rem;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 0.7rem;
+                font-size: 0.95rem;
+            }
+
+            .submit-button {
+                width: 100%;
+                padding: 0.7rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .contact-info p {
+                font-size: 0.95rem;
+            }
+
+            .map-container {
+                height: 250px;
+            }
+
+            .faq-question {
+                font-size: 0.95rem;
+            }
+
+            .faq-answer {
+                font-size: 0.9rem;
+            }
+
+            .back-to-home-button {
+                width: 100%;
+                text-align: center;
+                padding: 0.7rem 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href="pagina%20inicial.html">Agiliza HC</a></h1>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="pagina%20inicial.html">Início</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+                <li><a href="meus-agendamentos.html">Meus Agendamentos</a></li>
+                <li><a href="configuracoes.html">Configurações</a></li>
+                <li class="current-page"><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2><i class="fas fa-headset"></i> Fale Conosco</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem; color: #555;">Temos o prazer em ajudá-lo! Preencha o formulário abaixo ou utilize nossos canais de contato direto.</p>
+
+            <div class="contact-grid">
+                <div class="contact-section">
+                    <h3><i class="fas fa-envelope-open-text"></i> Envie uma Mensagem</h3>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Seu Nome:</label>
+                            <input type="text" id="name" name="name" required placeholder="Seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Seu E-mail:</label>
+                            <input type="email" id="email" name="email" required placeholder="seu.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Assunto:</label>
+                            <input type="text" id="subject" name="subject" required placeholder="Ex: Dúvida sobre agendamento">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensagem:</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Descreva sua dúvida ou solicitação..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">Enviar Mensagem</button>
+                    </form>
+                </div>
+
+                <div class="contact-section">
+                    <h3><i class="fas fa-info-circle"></i> Informações de Contato</h3>
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> R. Dr. Ovídio Pires de Campos, 225 - Cerqueira César, São Paulo - SP, 05403-010, Brasil</p>
+                        <p><i class="fas fa-phone"></i> Telefone: +55 11 2661-0000</p>
+                        <p><i class="fas fa-globe"></i> Site: <a href="https://www.hc.fm.usp.br/" target="_blank" style="color: #004080; text-decoration: underline;">hc.fm.usp.br</a></p>
+                        <p><i class="fas fa-clock"></i> Horário de Atendimento: 24 horas</p>
+                    </div>
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.4069818816823!2d-46.6713733236841!3d-23.55397457877546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5957d190013f%3A0x6b0931201597818e!2sHospital%20das%20Cl%C3%ADnicas%20FMUSP!5e0!3m2!1spt-BR!2sbr!4v1716428784136!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+
+                <div class="contact-section full-width">
+                    <h3><i class="fas fa-question-circle"></i> Perguntas Frequentes (FAQ)</h3>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Como faço para agendar uma consulta?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Você pode agendar sua consulta diretamente na página "Agendamento" do nosso site. Basta selecionar a especialidade, profissional e horário desejado. É rápido e fácil!</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Quais convênios são aceitos?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Aceitamos uma ampla gama de convênios médicos. Para verificar se o seu convênio é aceito, por favor, entre em contato conosco ou consulte a seção de "Convênios" no nosso site.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Posso cancelar ou reagendar meu agendamento?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sim, você pode cancelar ou reagendar seu agendamento na página "Meus Agendamentos". Pedimos que faça isso com o máximo de antecedência possível para liberar o horário para outros pacientes.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Quais são os documentos necessários para a consulta?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Para sua consulta, geralmente solicitamos um documento de identificação com foto (RG ou CNH) e sua carteirinha do convênio médico (se aplicável).</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            Como posso acessar meu histórico de consultas?
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Seu histórico de consultas e resultados de exames podem ser acessados na sua área logada, na seção "Meus Agendamentos" ou "Meu Prontuário Eletrônico".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="pagina%20inicial.html" class="back-to-home-button">Voltar para o Início</a>
+        </section>
+    </main>
+
+    <footer>
+        <a href="pagina%20inicial.html" class="home-icon" title="Voltar ao Início"><i class="fas fa-home"></i></a>
+        <p>© <span id="current-year"></span> Agiliza HC. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const welcomeMessage = document.getElementById('welcome-message');
+            const logoutButton = document.getElementById('logout-button');
+
+            function checkLoginStatus() {
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    welcomeMessage.textContent = `Olá, ${userName}!`;
+                    welcomeMessage.style.display = 'inline';
+                    logoutButton.style.display = 'inline-block';
+                } else {
+                    welcomeMessage.textContent = '';
+                    welcomeMessage.style.display = 'none';
+                    logoutButton.style.display = 'none';
+                }
+            }
+
+            logoutButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('userName');
+                checkLoginStatus();
+                alert('Você foi desconectado.');
+            });
+
+            const navItems = document.querySelectorAll('#main-nav li a');
+            navItems.forEach(item => {
+                const currentPage = window.location.pathname.split('/').pop();
+                const itemHref = item.getAttribute('href').split('/').pop();
+
+                if (itemHref === 'contato.html' || currentPage === 'contato.html') {
+                    item.parentElement.classList.add('current-page');
+                }
+            });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Mensagem enviada com sucesso! Em breve entraremos em contato.');
+                    contactForm.reset();
+                });
+            }
+
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isActive = question.classList.contains('active');
+
+                    document.querySelectorAll('.faq-question.active').forEach(activeQuestion => {
+                        if (activeQuestion !== question) {
+                            activeQuestion.classList.remove('active');
+                            activeQuestion.nextElementSibling.classList.remove('show');
+                        }
+                    });
+
+                    if (!isActive) {
+                        question.classList.add('active');
+                        answer.classList.add('show');
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    } else {
+                        question.classList.remove('active');
+                        answer.classList.remove('show');
+                        answer.style.maxHeight = null;
+                    }
+                });
+            });
+
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
