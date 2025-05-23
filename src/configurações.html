@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Agiliza HC</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff;
+            color: #003366;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 1rem 2rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #3399ff;
+            outline: none;
+        }
+
+        nav ul li.current-page a {
+            background-color: #3399ff;
+            pointer-events: none;
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .welcome-message {
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .logout-button {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .logout-button:hover,
+        .logout-button:focus {
+            background-color: white;
+            color: #004080;
+            outline: none;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1000px;
+            width: 90%;
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza o conteúdo horizontalmente */
+        }
+
+        main h2 {
+            border-bottom: 2px solid #004080;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #004080;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        main h2 i {
+            font-size: 2.2rem;
+            color: #004080;
+        }
+
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .setting-group {
+            background-color: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .setting-group:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            background-color: #eff6ff;
+        }
+
+        .setting-group h3 {
+            color: #004080;
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #c0d9ed;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-group h3 i {
+            font-size: 1.6rem;
+            color: #0056b3;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-weight: 500;
+            color: #333;
+            flex-grow: 1;
+            padding-right: 15px;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input,
+        input::placeholder,
+        textarea,
+        textarea::placeholder,
+        select {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #6c757d;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            border-color: #007bff;
+        }
+
+        input {
+            width: auto;
+            min-width: 150px;
+            padding: 0.6rem;
+            border: 1px solid #004080;
+            border-radius: 4px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        select {
+            width: auto;
+            min-width: 150px;
+            padding: 0.6rem;
+            border: 1px solid #004080;
+            border-radius: 4px;
+        }
+
+        .action-button {
+            background-color: #004080;
+            color: white;
+            padding: 0.75rem 1.2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .action-button:hover,
+        .action-button:focus {
+            background-color: #3399ff;
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #007bff;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #007bff;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .navigation-section {
+            display: flex;
+            justify-content: center;
+            width: 100%; /* Ocupa a largura total do main */
+            max-width: 600px; /* Alinha com o settings-container */
+            margin-top: 2rem; /* Espaço entre o último grupo de configurações e o botão */
+            padding-top: 1rem; /* Espaço interno acima do botão */
+            border-top: 1px solid #f0f0f0; /* Linha sutil para separar */
+        }
+
+        .back-to-home-button {
+            background-color: #6c757d; /* Cor cinza */
+            color: white;
+            padding: 0.75rem 1.2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-to-home-button:hover,
+        .back-to-home-button:focus {
+            background-color: #5a6268; /* Tom de cinza mais escuro no hover */
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .home-icon {
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .home-icon:hover {
+            background-color: #3399ff;
+        }
+
+        a {
+            color: #004080;
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus {
+            color: #3399ff;
+            outline: none;
+        }
+
+        @media (max-width: 599px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+
+            nav ul li a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user-controls {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .welcome-message {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .logout-button {
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            main {
+                width: 95%;
+                padding: 1rem;
+                align-items: stretch; /* Garante que os filhos ocupem a largura */
+            }
+
+            main h2 {
+                font-size: 1.6rem;
+            }
+
+            main h2 i {
+                font-size: 1.8rem;
+            }
+
+            .settings-container {
+                gap: 20px;
+            }
+
+            .setting-group {
+                padding: 15px;
+            }
+
+            .setting-group h3 {
+                font-size: 1.2rem;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 10px;
+                gap: 5px;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 10px 0;
+            }
+
+            .setting-label {
+                width: 100%;
+                text-align: left;
+                padding-right: 0;
+            }
+
+            .setting-control {
+                width: 100%;
+                justify-content: flex-start;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .setting-control input,
+            .setting-control select {
+                width: 100%;
+                min-width: unset;
+            }
+
+            .action-button {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .navigation-section {
+                width: 100%;
+                margin-top: 1.5rem;
+                padding-top: 1rem;
+            }
+
+            .back-to-home-button {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 600px) and (max-width: 899px) {
+            main {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            .settings-container {
+                max-width: 80%;
+            }
+            .navigation-section {
+                max-width: 80%;
+            }
+        }
+
+        @media (min-width: 900px) {
+            main {
+                width: 75%;
+                padding: 2rem;
+            }
+
+            .navigation-section {
+                max-width: 600px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1><a href="pagina%20inicial.html">Agiliza HC</a></h1>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="pagina%20inicial.html">Início</a></li>
+                <li><a href="agendamento.html">Agendamento</a></li>
+                <li><a href="meus-agendamentos.html">Meus Agendamentos</a></li>
+                <li class="current-page"><a href="configuracoes.html">Configurações</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2><i class="fas fa-cog"></i> Suas Configurações</h2>
+
+            <div class="settings-container">
+                <div class="setting-group">
+                    <h3><i class="fas fa-user-circle"></i> Dados da Conta</h3>
+                    <div class="setting-item">
+                        <span class="setting-label">Nome de Usuário:</span>
+                        <div class="setting-control">
+                            <input type="text" id="username" value="usuario_agiliza">
+                            <button class="action-button" data-setting-id="username">Salvar</button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">E-mail:</span>
+                        <div class="setting-control">
+                            <input type="email" id="email" value="usuario@email.com">
+                            <button class="action-button" data-setting-id="email">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h3><i class="fas fa-bell"></i> Notificações</h3>
+                    <div class="setting-item">
+                        <span class="setting-label">Receber notificações por e-mail:</span>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Receber lembretes de consulta via SMS:</span>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="sms-reminders">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Notificações no navegador:</span>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="browser-notifications" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h3><i class="fas fa-shield-alt"></i> Privacidade e Segurança</h3>
+                    <div class="setting-item">
+                        <span class="setting-label">Autenticação de dois fatores:</span>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="two-factor-auth">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Compartilhar dados de uso:</span>
+                        <div class="setting-control">
+                            <label class="switch">
+                                <input type="checkbox" id="share-data">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Excluir minha conta:</span>
+                        <div class="setting-control">
+                            <button class="action-button delete-button" data-setting-id="delete-account">Excluir Conta</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h3><i class="fas fa-globe"></i> Idioma e Preferências</h3>
+                    <div class="setting-item">
+                        <span class="setting-label">Idioma da interface:</span>
+                        <div class="setting-control">
+                            <select id="language">
+                                <option value="pt-br" selected>Português (Brasil)</option>
+                                <option value="en">English (US)</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Formato de data:</span>
+                        <div class="setting-control">
+                            <select id="date-format">
+                                <option value="dd/mm/yyyy" selected>DD/MM/YYYY</option>
+                                <option value="mm/dd/yyyy">MM/DD/YYYY</option>
+                                <option value="yyyy-mm-dd">YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Tema da interface:</span>
+                        <div class="setting-control">
+                            <select id="theme">
+                                <option value="light" selected>Claro</option>
+                                <option value="dark">Escuro</option>
+                                <option value="system">Sistema</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-section">
+                <a href="pagina%20inicial.html" class="back-to-home-button"><i class="fas fa-arrow-left"></i> Voltar para Início</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a href="pagina%20inicial.html" class="home-icon" title="Voltar ao Início"><i class="fas fa-home"></i></a>
+        <p>&copy; <span id="current-year"></span> Agiliza HC. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const welcomeMessage = document.getElementById('welcome-message');
+            const logoutButton = document.getElementById('logout-button');
+
+            function checkLoginStatus() {
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    welcomeMessage.textContent = `Olá, ${userName}!`;
+                    welcomeMessage.style.display = 'inline';
+                    logoutButton.style.display = 'inline-block';
+                } else {
+                    welcomeMessage.textContent = '';
+                    welcomeMessage.style.display = 'none';
+                    logoutButton.style.display = 'none';
+                }
+            }
+
+            logoutButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                localStorage.removeItem('userName');
+                checkLoginStatus();
+                alert('Você foi desconectado.');
+            });
+
+            const navItems = document.querySelectorAll('#main-nav li a');
+            navItems.forEach(item => {
+                const currentPage = window.location.pathname.split('/').pop();
+                const itemHref = item.getAttribute('href').split('/').pop();
+
+                if (itemHref === 'configuracoes.html' || currentPage === 'configuracoes.html') {
+                    item.parentElement.classList.add('current-page');
+                }
+            });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            document.querySelectorAll('.action-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const settingId = this.getAttribute('data-setting-id');
+                    let message = '';
+
+                    switch (settingId) {
+                        case 'username':
+                            const usernameInput = document.getElementById('username');
+                            message = `Nome de usuário "${usernameInput.value}" salvo.`;
+                            break;
+                        case 'email':
+                            const emailInput = document.getElementById('email');
+                            message = `E-mail "${emailInput.value}" salvo.`;
+                            break;
+                        case 'delete-account':
+                            if (confirm('Tem certeza que deseja excluir sua conta? Esta ação é irreversível.')) {
+                                message = 'Solicitação de exclusão de conta enviada.';
+                            } else {
+                                message = 'Exclusão de conta cancelada.';
+                            }
+                            break;
+                        default:
+                            message = 'Ação de salvar/atualizar seria processada.';
+                    }
+                    alert(message);
+                });
+            });
+
+            document.querySelectorAll('.switch input').forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    alert(`Configuração "${this.id}" ${this.checked ? 'ativada' : 'desativada'}.`);
+                });
+            });
+
+            document.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', function() {
+                    alert(`Configuração "${this.id}" alterada para: ${this.value}.`);
+                });
+            });
+
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
