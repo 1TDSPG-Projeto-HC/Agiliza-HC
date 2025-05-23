@@ -3,16 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="/css/style.css">
-    <title>Agiliza HC - Pagina inicial</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Agiliza HC - Página Inicial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f0ff;
+            color: #003366;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: #004080;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover,
+        a:focus {
+            color: #3399ff;
+            outline: none;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus {
+            background-color: #3399ff;
+            outline: none;
+        }
+
+        nav ul li.current-page a {
+            background-color: #3399ff;
+            pointer-events: none;
+        }
+
+        .user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .welcome-message {
+            font-weight: 600;
+            color: white;
+        }
+
+        .logout-button {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            background-color: transparent;
+        }
+
+        .logout-button:hover,
+        .logout-button:focus {
+            background-color: white;
+            color: #004080;
+            outline: none;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            width: 90%;
+            background-color: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        main section {
+            padding-bottom: 1rem;
+        }
+
+        main h2 {
+            font-size: 2.5rem;
+            color: #004080;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        main h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #3399ff;
+            border-radius: 2px;
+        }
+
+        .dashboard-welcome {
+            font-size: 1.5rem;
+            color: #004080;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .dashboard-question {
+            font-size: 2.2rem;
+            color: #004080;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .dashboard-card {
+            background-color: #f0f8ff;
+            border: 1px solid #cce0ff;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: #004080;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .dashboard-card:hover {
+            background-color: #e0f0ff;
+            border-color: #aaccff;
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-card .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #0056b3;
+        }
+
+        .info-section {
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-section h3 {
+            font-size: 2rem;
+            color: #004080;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-section h3 i {
+            font-size: 2.5rem;
+            color: #0056b3;
+        }
+
+        .info-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+
+        .info-item {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-item i {
+            font-size: 3rem;
+            color: #0056b3;
+            margin-bottom: 1rem;
+        }
+
+        .info-item h4 {
+            font-size: 1.3rem;
+            color: #004080;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #666;
+            text-align: center;
+        }
+
+        .news-section {
+            background-color: #f8f8f8;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .news-section h3 {
+            font-size: 2rem;
+            color: #004080;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .news-section h3 i {
+            font-size: 2.5rem;
+            color: #0056b3;
+        }
+
+        .news-item {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .news-item h4 {
+            font-size: 1.2rem;
+            color: #004080;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-item p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .news-item .news-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            margin-top: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .home-icon {
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-icon:hover {
+            background-color: #3399ff;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+
+            header h1 {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            nav {
+                width: 100%;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            nav ul li a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .user-controls {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            main {
+                width: 95%;
+                padding: 1.5rem;
+                gap: 2rem;
+            }
+
+            main h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            main h2::after {
+                width: 60px;
+            }
+
+            .dashboard-welcome, .dashboard-question {
+                font-size: 1.3rem;
+            }
+
+            .dashboard-question {
+                font-size: 1.8rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-card {
+                padding: 1.5rem;
+                font-size: 1.1rem;
+            }
+
+            .dashboard-card .icon {
+                font-size: 3rem;
+            }
+
+            .info-section h3, .news-section h3 {
+                font-size: 1.8rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .info-section h3 i, .news-section h3 i {
+                font-size: 2rem;
+            }
+
+            .info-section p {
+                font-size: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Agiliza HC</h1>
+        <h1><a href="index.html">Agiliza HC</a></h1>
         <nav>
             <ul id="main-nav">
-                <li><a href="index.html">Início</a></li>
+                <li class="current-page"><a href="index.html">Início</a></li>
                 <li><a href="sobre.html">Sobre Nós</a></li>
                 <li><a href="servicos.html">Serviços</a></li>
                 <li><a href="agendamento.html">Agendamento</a></li>
@@ -20,11 +475,15 @@
                 <li><a href="faq.html">FAQ</a></li>
             </ul>
         </nav>
+        <div class="user-controls">
+            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+        </div>
     </header>
 
     <main>
-        <section>
-            <p class="dashboard-welcome" id="user-welcome-message">Olá, Usuário!</p>
+        <section class="user-dashboard-section">
+            <p class="dashboard-welcome" id="user-welcome-message">Olá!</p>
             <h2 class="dashboard-question">Como podemos te ajudar hoje?</h2>
 
             <div class="dashboard-grid">
@@ -38,20 +497,136 @@
                 </a>
                 <a href="fedbaack.html" class="dashboard-card">
                     <i class="fas fa-comment-dots icon"></i>
-                    <span>Feedback</span>
+                    <span>Deixar um Feedback</span>
                 </a>
                 <a href="prontoatendimento.html" class="dashboard-card">
                     <i class="fas fa-first-aid icon"></i>
-                    <span>Pronto atendimento</span>
+                    <span>Pronto Atendimento</span>
                 </a>
                 <a href="faleconosco.html" class="dashboard-card">
                     <i class="fas fa-headset icon"></i>
-                    <span>Fale conosco</span>
+                    <span>Fale Conosco</span>
                 </a>
                 <a href="configurações.html" class="dashboard-card">
                     <i class="fas fa-cog icon"></i>
-                    <span>Configurações</span>
+                    <span>Configurações da Conta</span>
                 </a>
             </div>
         </section>
+
+        <section class="info-section">
+            <h3><i class="fas fa-hospital-alt"></i> Sobre o Agiliza HC</h3>
+            <p>
+                O Agiliza HC é a sua plataforma digital para otimizar o acesso aos serviços do Hospital das Clínicas.
+                Nossa missão é simplificar a gestão de agendamentos, o acesso a informações e a comunicação com a equipe médica,
+                promovendo uma experiência de saúde mais ágil e eficiente para todos os nossos pacientes.
+                Com tecnologia e humanização, estamos comprometidos em oferecer o melhor cuidado.
+            </p>
+            <a href="sobre.html" class="dashboard-card" style="width: auto; padding: 0.8rem 1.5rem; font-size: 1rem; margin-top: 1.5rem;">
+                Saiba Mais Sobre Nós
+            </a>
+        </section>
+
+        <section class="info-section">
+            <h3><i class="fas fa-hand-holding-medical"></i> Nossos Diferenciais</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <i class="fas fa-laptop-medical"></i>
+                    <h4>Tecnologia de Ponta</h4>
+                    <p>Agendamentos online, prontuário eletrônico e teleconsultas para sua comodidade.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-user-md"></i>
+                    <h4>Corpo Clínico Especializado</h4>
+                    <p>Profissionais renomados e dedicados, focados na sua saúde e bem-estar.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-heartbeat"></i>
+                    <h4>Cuidado Humanizado</h4>
+                    <p>Priorizamos o atendimento acolhedor e a atenção individualizada a cada paciente.</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Segurança e Privacidade</h4>
+                    <p>Seus dados protegidos com os mais altos padrões de segurança da informação.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="news-section">
+            <h3><i class="fas fa-bullhorn"></i> Últimas Notícias e Comunicados</h3>
+            <div class="news-item">
+                <h4>Campanha de Vacinação Contra a Gripe 2025</h4>
+                <p>Nossa campanha de vacinação anual já começou. Agende sua dose e proteja-se!</p>
+                <span class="news-date">20 de maio de 2025</span>
+            </div>
+            <div class="news-item">
+                <h4>Novos Horários para Teleconsultas</h4>
+                <p>Ampliamos nossos horários de teleconsultas em diversas especialidades. Verifique a disponibilidade.</p>
+                <span class="news-date">15 de maio de 2025</span>
+            </div>
+            <div class="news-item">
+                <h4>Simpósio de Inovação em Saúde: Agiliza HC Presente</h4>
+                <p>Nossa equipe participou do principal evento de tecnologia na saúde, trazendo as últimas novidades.</p>
+                <span class="news-date">10 de maio de 2025</span>
+            </div>
+            <a href="#" class="dashboard-card" style="width: auto; padding: 0.8rem 1.5rem; font-size: 1rem; margin-top: 1.5rem; background-color: #6c757d; border-color: #6c757d;">
+                Ver Todas as Notícias
+            </a>
+        </section>
+
     </main>
+
+    <footer>
+        <a href="index.html" class="home-icon" title="Voltar ao Início"><i class="fas fa-home"></i></a>
+        <p>© <span id="current-year"></span> Agiliza HC. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeMessage = document.getElementById('welcome-message');
+            const userWelcomeMessage = document.getElementById('user-welcome-message');
+            const logoutButton = document.getElementById('logout-button');
+            const mainNav = document.getElementById('main-nav');
+
+            function checkLoginStatus() {
+                const userName = localStorage.getItem('userName');
+                if (userName) {
+                    welcomeMessage.textContent = `Olá, ${userName}!`;
+                    welcomeMessage.style.display = 'inline';
+                    userWelcomeMessage.textContent = `Olá, ${userName}!`;
+                    logoutButton.style.display = 'inline-block';
+                } else {
+                    welcomeMessage.textContent = '';
+                    welcomeMessage.style.display = 'none';
+                    userWelcomeMessage.textContent = 'Olá!';
+                    logoutButton.style.display = 'none';
+                }
+            }
+
+            logoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('userName');
+                alert('Você foi desconectado.');
+                checkLoginStatus();
+            });
+
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = mainNav.querySelectorAll('li a');
+
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage || (linkHref === 'index.html' && (currentPage === '' || currentPage === 'index.html'))) {
+                    link.parentElement.classList.add('current-page');
+                } else {
+                    link.parentElement.classList.remove('current-page');
+                }
+            });
+
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            checkLoginStatus();
+        });
+    </script>
+</body>
+</html>
