@@ -2,67 +2,117 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Contato - Agiliza HC</title>
+  <title>Login - Agiliza HC</title>
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 50px;
+    }
+
+    .login-container {
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .login-container h2 {
+      text-align: center;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .login-container a {
+      display: block;
+      text-align: right;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .login-container a:hover {
+      text-decoration: underline;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
-    <header> 
-        <h1>Agiliza HC</h1>
-        <nav>
-            <ul id="main-nav">
-                <li><a href="/index.html">Início</a></li>
-                <li><a href="integrantes.html">integrantes</a></li>
-                <li><a href="contato.html">Contato</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="cadastro.html">Cadastro</a></li>
-            </ul>
-        </nav>
-        <div class="user-controls">
-            <span id="welcome-message" class="welcome-message" style="display: none;"></span>
-            <a href="login.html" id="login-button" class="login-button">Login</a>
-            <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+  <header> 
+    <h1>Agiliza HC</h1>
+    <nav>
+      <ul id="main-nav">
+        <li><a href="/index.html">Início</a></li>
+        <li><a href="integrantes.html">Integrantes</a></li>
+        <li><a href="contato.html">Contato</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+      </ul>
+    </nav>
+    <div class="user-controls">
+      <span id="welcome-message" class="welcome-message" style="display: none;"></span>
+      <a href="login.html" id="login-button" class="login-button">Login</a>
+      <a href="#" id="logout-button" class="logout-button" style="display: none;">Sair</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="login-container">
+      <h2>Login</h2>
+      <p>Faça login para acessar suas informações, histórico de consultas e agendamentos.</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Usuário:</label>
+          <input type="text" id="username" name="username" required>
         </div>
-    </header>
-    <main>
-        <section>
-            <h2>Acesso ao Portal do Paciente</h2>
-            <p>Faça login para acessar suas informações, histórico de consultas e agendamentos.</p>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="username">Usuário:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Senha:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit">Entrar</button>
-                <p id="login-error-message" style="display: none;">Usuário ou senha inválidos.</p>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 Clínica Saúde & Bem-Estar. Todos os direitos reservados.</p>
-    </footer>
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Entrar</button>
+        <a href="esqueceusenha.html">Esqueci minha senha</a>
+        <p id="login-error-message" style="display: none; color: red;">Usuário ou senha inválidos.</p>
+      </form>
+    </section>
+  </main>
 
-    <!-- SCRIPT DE LOGIN -->
-    <script>
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
+  <footer>
+    <p>&copy; 2023 Clínica Saúde & Bem-Estar. Todos os direitos reservados.</p>
+  </footer>
 
-                if (username && password) {
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('username', username);
-                    window.location.href = 'pagina inicial.html';
-                } else {
-                    document.getElementById('login-error-message').style.display = 'block';
-                }
-            });
+  <script>
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username && password) {
+          sessionStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('username', username);
+          window.location.href = 'pagina inicial.html';
+        } else {
+          document.getElementById('login-error-message').style.display = 'block';
         }
-    </script>
+      });
+    }
+  </script>
 </body>
 </html>
